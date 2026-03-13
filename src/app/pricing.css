@@ -1,0 +1,231 @@
+.pricing-section {
+    padding: 4.5rem 0;
+    background-color: var(--background);
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.05) 0%, rgba(255, 255, 255, 0) 70%);
+    z-index: 0;
+}
+
+.pricing-card {
+    position: relative;
+    z-index: 1;
+    background: #ffffff;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.launch-badge {
+    display: inline-block;
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--accent-blue);
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+}
+
+.pricing-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--foreground);
+    margin-bottom: 2.5rem;
+}
+
+.pricing-value-breakdown {
+    width: 100%;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+}
+
+.value-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    font-size: 1rem;
+    color: #475569;
+    font-weight: 500;
+    text-align: left;
+}
+
+.value-row span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.value-total {
+    margin-top: 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e2e8f0;
+    font-weight: 800;
+    color: var(--foreground);
+    font-size: 1.25rem;
+}
+
+.strikethrough-red {
+    text-decoration: line-through;
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.pricing-offer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f8fafc;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+}
+
+.offer-label {
+    font-size: 1rem;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.current-price {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: var(--foreground);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.offer-save {
+    color: #f59e0b;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.pricing-urgency {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.countdown-timer {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: monospace, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.amount-urgency {
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.pricing-social-proof {
+    font-size: 0.95rem;
+    color: #334155;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    background: #f1f5f9;
+    padding: 6px 16px;
+    border-radius: 100px;
+}
+
+.pricing-cta {
+    width: 100%;
+}
+
+.btn-checkout {
+    width: 100%;
+    font-size: 1.15rem;
+    padding: 20px 0;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    background: #0B1F3B;
+    color: white;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.btn-checkout:hover {
+    background: #1E3A8A;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(11, 31, 59, 0.2);
+}
+
+.trust-elements {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+.secure-payment {
+    color: #475569;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.trust-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+    padding: 0 1rem;
+}
+
+.trust-check {
+    color: #64748b;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .pricing-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .pricing-title {
+        font-size: 1.8rem;
+    }
+
+    .current-price {
+        font-size: 3rem;
+    }
+}

@@ -1,0 +1,84 @@
+.problem-section {
+    padding: 4.5rem 0;
+    background: #f8fafc;
+    position: relative;
+}
+
+.problem-header {
+    max-width: 600px;
+    margin: 0 auto 4rem;
+}
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.problem-card {
+    background: #ffffff;
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.problem-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    background: #f1f5f9;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.card-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.flow-problem {
+    font-size: 1.1rem;
+    color: var(--muted-foreground);
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+.flow-arrow {
+    font-size: 1.5rem;
+    color: #cbd5e1;
+    margin: 0.25rem 0;
+}
+
+.flow-solution {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--foreground);
+}
+
+@media (max-width: 768px) {
+    .problem-section {
+        padding: 6rem 0;
+    }
+
+    .problem-grid {
+        grid-template-columns: 1fr;
+    }
+}

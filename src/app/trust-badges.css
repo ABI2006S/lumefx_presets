@@ -1,0 +1,43 @@
+.trust-section {
+    padding: 4rem 0;
+    background: var(--background);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.trust-title {
+    font-size: 0.95rem;
+    color: var(--muted-foreground);
+    font-weight: 500;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.trust-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--foreground);
+    font-size: 1rem;
+}
+
+.trust-icon {
+    font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+    .trust-grid {
+        gap: 1.5rem;
+        flex-direction: column;
+    }
+}

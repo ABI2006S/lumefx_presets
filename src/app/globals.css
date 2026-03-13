@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+  --muted-foreground: #475569;
+  --accent: #000000;
+  --accent-blue: #2563EB;
+  --accent-light: #333333;
+  --border: rgba(0, 0, 0, 0.08);
+  --muted: #f8fafc;
+  --radius: 16px;
+  --shadow-card: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0px 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  font-size: 12px;
+  zoom: 0.75;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Typography Base */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Scroll Reveal Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Base staggers for children elements inside a container */
+.reveal-delay-100 {
+  transition-delay: 100ms;
+}
+
+.reveal-delay-200 {
+  transition-delay: 200ms;
+}
+
+.reveal-delay-300 {
+  transition-delay: 300ms;
+}
+
+.reveal-delay-400 {
+  transition-delay: 400ms;
+}
+
+.reveal-delay-500 {
+  transition-delay: 500ms;
+}
+
+/* In case we want immediate hero loads without scroll triggers */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Common UI */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 16px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-large {
+  font-size: 1.125rem;
+  padding: 16px 36px;
+  min-height: 56px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: clamp(28px, 6vw, 32px) !important;
+  }
+
+  h2.section-title {
+    font-size: clamp(24px, 5vw, 28px) !important;
+  }
+
+  p,
+  .section-subtitle,
+  .hero-subtitle {
+    font-size: clamp(14px, 4vw, 15px) !important;
+  }
+
+  /* Force full width on primary buttons inside mobile sections */
+  section .btn-primary {
+    width: 100%;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1150px;
+  /* Reverted for optimal content density */
+  margin: 0 auto;
+  padding: 0 24px;
+}

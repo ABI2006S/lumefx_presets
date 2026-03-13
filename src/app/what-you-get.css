@@ -1,0 +1,151 @@
+.journey-section {
+    padding: 8rem 0;
+    background-color: var(--muted);
+    /* #f8fafc */
+    position: relative;
+    overflow: hidden;
+}
+
+.journey-timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 3rem;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: #E2E8F0;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.journey-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 2;
+}
+
+.journey-row.left {
+    flex-direction: row;
+}
+
+.journey-row.right {
+    flex-direction: row-reverse;
+}
+
+.journey-spacer {
+    width: 45%;
+}
+
+.journey-card {
+    width: 45%;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journey-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 0 4px #ffffff, 0 0 0 6px #E2E8F0;
+}
+
+.journey-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: 0.75rem;
+}
+
+.journey-desc {
+    font-size: 1rem;
+    color: var(--muted-foreground);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.journey-preview-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #F1F5F9;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94A3B8;
+    font-weight: 500;
+    font-size: 0.875rem;
+    border: 1px dashed #CBD5E1;
+}
+
+/* Custom Slide-In Animations */
+.reveal.slide-in-left {
+    opacity: 0;
+    transform: translateX(-40px);
+}
+
+.reveal.slide-in-right {
+    opacity: 0;
+    transform: translateX(40px);
+}
+
+.reveal.reveal-visible.slide-in-left,
+.reveal.reveal-visible.slide-in-right {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* Mobile Stacked Layout */
+@media (max-width: 768px) {
+    .hidden-mobile {
+        display: none !important;
+    }
+
+    .journey-timeline {
+        padding-top: 1rem;
+    }
+
+    .journey-row {
+        flex-direction: column !important;
+        margin-bottom: 2rem;
+    }
+
+    .journey-card {
+        width: 100%;
+        padding: 2rem 1.5rem;
+    }
+
+    /* Override horizontal slide for mobile to standard fade up */
+    .reveal.slide-in-left,
+    .reveal.slide-in-right {
+        transform: translateY(20px);
+    }
+
+    .reveal.reveal-visible.slide-in-left,
+    .reveal.reveal-visible.slide-in-right {
+        transform: translateY(0);
+    }
+}
