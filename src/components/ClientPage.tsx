@@ -43,7 +43,14 @@ export default function ClientPage() {
     return () => observer.disconnect();
   }, []);
 
-  const handleOpenCheckout = () => setIsModalOpen(true);
+  const handleOpenCheckout = () => {
+    setIsModalOpen(true);
+    // Track InitiateCheckout event
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'InitiateCheckout');
+    }
+  };
+
   const handleCloseCheckout = () => setIsModalOpen(false);
 
   const loadRazorpay = () =>
@@ -69,8 +76,8 @@ export default function ClientPage() {
     }
 
     try {
-      // 1. Create order in Flask Backend
-      const orderRes = await fetch('http://localhost:5000/create-order', {
+      // 1. Create order in Next.js API
+      const orderRes = await fetch('/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -87,6 +94,14 @@ export default function ClientPage() {
 
       // 2. Handle Free Product Bypass
       if (orderData.is_free) {
+        // Track Purchase event for free products
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Purchase', {
+            value: 0,
+            currency: 'INR',
+            content_name: 'Lumefx Creator Bundle'
+          });
+        }
         window.location.href = '/success';
         return;
       }
@@ -104,7 +119,7 @@ export default function ClientPage() {
           razorpay_order_id: string;
           razorpay_signature: string;
         }) {
-          const verifyRes = await fetch('http://localhost:5000/verify-payment', {
+          const verifyRes = await fetch('/api/verify-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -115,6 +130,14 @@ export default function ClientPage() {
           });
           const verifyData = await verifyRes.json();
           if (verifyRes.ok) {
+            // Track Purchase event for successful payments
+            if (typeof window !== 'undefined' && (window as any).fbq) {
+              (window as any).fbq('track', 'Purchase', {
+                value: orderData.amount / 100, // Razorpay amount is in paise
+                currency: orderData.currency,
+                content_name: 'Lumefx Creator Bundle'
+              });
+            }
             window.location.href = '/success';
           } else {
             alert(verifyData.error || 'Payment verification failed.');

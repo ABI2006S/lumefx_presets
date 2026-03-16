@@ -1,57 +1,69 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
-import nodemailer from 'nodemailer';
+import { verifyPaymentSignature } from '@/lib/razorpay';
+import { 
+    updateOrderStatus, 
+    getOrderByRazorpayOrderId, 
+    getProductById, 
+    incrementSalesCount 
+} from '@/lib/supabase';
+import { sendDownloadEmail } from '@/lib/email';
 
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { razorpay_order_id, razorpay_payment_id, razorpay_signature, customerInfo } = body;
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = body;
 
-        const secret = process.env.RAZORPAY_KEY_SECRET || 'dummy_secret';
-
-        const shasum = crypto.createHmac('sha256', secret);
-        shasum.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-        const expectedSignature = shasum.digest('hex');
-
-        const isAuthentic = expectedSignature === razorpay_signature;
-
-        if (!isAuthentic) {
-            return NextResponse.json({ success: false, message: 'Invalid signature' }, { status: 400 });
+        if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        // Payment is valid, save user data if needed here...
-        console.log('Customer purchased:', customerInfo);
+        // 1. Verify Razorpay signature
+        const isValid = verifyPaymentSignature(razorpay_order_id, razorpay_payment_id, razorpay_signature);
+        
+        if (!isValid) {
+            await updateOrderStatus(razorpay_order_id, 'failed', razorpay_payment_id);
+            return NextResponse.json({ error: 'Payment verification failed', verified: false }, { status: 400 });
+        }
 
-        // Send Email Delivery
-        const driveLink = process.env.GOOGLE_DRIVE_LINK || 'https://drive.google.com/example-link';
+        // 2. Update order in Supabase
+        let order = await updateOrderStatus(razorpay_order_id, 'success', razorpay_payment_id);
+        
+        if (!order) {
+            order = await getOrderByRazorpayOrderId(razorpay_order_id);
+        }
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail', // Standard configuration for demo, normally better to use App Passwords
-            auth: {
-                user: process.env.EMAIL_USER || 'example@gmail.com',
-                pass: process.env.EMAIL_PASS || 'password',
-            },
+        if (!order) {
+            return NextResponse.json({ error: 'Order not found in DB' }, { status: 404 });
+        }
+
+        const { product_id, email, name } = order;
+
+        // 3. Increase sales count
+        if (product_id) {
+            await incrementSalesCount(product_id);
+        }
+
+        // 4. Fetch the product drive link
+        const product = await getProductById(product_id);
+        if (!product) {
+            return NextResponse.json({ error: 'Product details not found' }, { status: 404 });
+        }
+
+        // 5. Send email using Resend
+        await sendDownloadEmail(
+            email,
+            name,
+            product.drive_link,
+            product.product_name
+        );
+
+        return NextResponse.json({
+            message: 'Payment verified and email sent successfully',
+            verified: true
         });
 
-        const mailOptions = {
-            from: `"Lumefx Team" <${process.env.EMAIL_USER || 'example@gmail.com'}>`,
-            to: customerInfo.email,
-            subject: 'Your Lumefx Bundle Download',
-            text: `Hi ${customerInfo.name},\n\nThank you for purchasing the Lumefx Ultimate Editing Bundle.\n\nDownload your files here:\n${driveLink}\n\nBundle size: 64GB\n\nEnjoy creating cinematic edits.\n\nLumefx Team`
-        };
-
-        try {
-            await transporter.sendMail(mailOptions);
-            console.log('Email sent successfully');
-        } catch (e) {
-            console.error('Error sending email:', e);
-            // It's still a success for payment if email fails, but should be logged.
-        }
-
-        return NextResponse.json({ success: true, message: 'Payment verified successfully' });
-
-    } catch (error) {
-        console.error('Payment verification failed:', error);
-        return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
+    } catch (error: any) {
+        console.error('Error in /api/verify-payment:', error);
+        return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
     }
 }
