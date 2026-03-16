@@ -1,37 +1,103 @@
 import { NextResponse } from 'next/server';
-import Razorpay from 'razorpay';
 import { v4 as uuidv4 } from 'uuid';
-
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID || 'dummy_key',
-    key_secret: process.env.RAZORPAY_KEY_SECRET || 'dummy_secret',
-});
+import { getProductById, createOrder, updateOrderStatus, incrementSalesCount } from '@/lib/supabase';
+import { createRazorpayOrder } from '@/lib/razorpay';
+import { sendDownloadEmail } from '@/lib/email';
 
 export async function POST(request: Request) {
     try {
-        const { amount } = await request.json();
+        const body = await request.json();
+        const { name, email, dream, state, product_id } = body;
 
-        const payment_capture = 1;
-        const amountInPaise = amount * 100;
-        const currency = 'INR';
+        // 1. Validate data
+        if (!name || !email || !dream || !state || !product_id) {
+            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        }
 
-        // Create Razorpay order
-        const options = {
-            amount: amountInPaise,
-            currency,
-            receipt: uuidv4(),
-            payment_capture
-        };
+        // 2. Fetch product from Supabase
+        const product = await getProductById(product_id);
+        if (!product) {
+            return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+        }
 
-        const response = await razorpay.orders.create(options);
+        if (product.is_active === false) {
+            return NextResponse.json({ error: 'Product is currently inactive' }, { status: 400 });
+        }
 
-        return NextResponse.json({
-            id: response.id,
-            currency: response.currency,
-            amount: response.amount
+        const priceInInr = product.price || 0;
+        const amountInPaise = Math.round(priceInInr * 100);
+
+        // 3. Handle Free Products automatically
+        if (amountInPaise === 0) {
+            const freeOrderId = `free_${uuidv4().replace(/-/g, '')}`;
+            
+            const order = await createOrder({
+                name,
+                email,
+                dream,
+                state,
+                product_id,
+                product_price: 0,
+                razorpay_order_id: freeOrderId
+            });
+
+            if (!order) {
+                return NextResponse.json({ error: 'Failed to create free order' }, { status: 500 });
+            }
+
+            await updateOrderStatus(freeOrderId, 'success', 'free_transaction');
+            await incrementSalesCount(product_id);
+            
+            await sendDownloadEmail(
+                email,
+                name,
+                product.drive_link,
+                product.product_name
+            );
+            
+            return NextResponse.json({
+                order_id: freeOrderId,
+                amount: 0,
+                currency: 'INR',
+                is_free: true,
+                message: 'Free order processed successfully. Email sent!'
+            });
+        }
+
+        // 4. Create Razorpay order
+        const receipt = `rcpt_${uuidv4().replace(/-/g, '')}`;
+        const razorpayOrder = await createRazorpayOrder(amountInPaise, receipt);
+        const razorpayOrderId = razorpayOrder.id;
+
+        if (!razorpayOrderId) {
+            return NextResponse.json({ error: 'Failed to create Razorpay order' }, { status: 500 });
+        }
+
+        // 5. Insert order in Supabase
+        const order = await createOrder({
+            name,
+            email,
+            dream,
+            state,
+            product_id,
+            product_price: priceInInr,
+            razorpay_order_id: razorpayOrderId
         });
-    } catch (error) {
-        console.error('Error creating order:', error);
-        return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
+
+        if (!order) {
+            return NextResponse.json({ error: 'Failed to store order in database' }, { status: 500 });
+        }
+
+        // 6. Return Razorpay order details to frontend
+        return NextResponse.json({
+            order_id: razorpayOrderId,
+            amount: amountInPaise,
+            currency: 'INR',
+            is_free: false
+        });
+
+    } catch (error: any) {
+        console.error('Error in /api/create-order:', error);
+        return NextResponse.json({ error: error.message || 'Internal server error' }, { status: 500 });
     }
 }

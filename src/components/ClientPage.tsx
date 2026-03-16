@@ -76,8 +76,8 @@ export default function ClientPage() {
     }
 
     try {
-      // 1. Create order in Flask Backend
-      const orderRes = await fetch('http://localhost:5000/create-order', {
+      // 1. Create order in Next.js API
+      const orderRes = await fetch('/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -119,7 +119,7 @@ export default function ClientPage() {
           razorpay_order_id: string;
           razorpay_signature: string;
         }) {
-          const verifyRes = await fetch('http://localhost:5000/verify-payment', {
+          const verifyRes = await fetch('/api/verify-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
