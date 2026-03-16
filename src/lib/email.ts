@@ -15,7 +15,7 @@ export async function sendDownloadEmail(
   productName: string
 ) {
   try {
-    const fromEmail = process.env.RESEND_FROM_EMAIL || 'lumefxpresets@gmail.com';
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'hello@lumefxpresets.store';
     
     const { data, error } = await resend.emails.send({
       from: `Editor Packs <${fromEmail}>`,

@@ -26,7 +26,7 @@ def send_download_email(to_email, name, drive_link, product_name):
         
         # Custom from address requested by user
         # NOTE: This will only work if the domain (gmail.com) is verified in Resend (unlikely)
-        from_email = os.environ.get("RESEND_FROM_EMAIL", "lumefxpresets@gmail.com") 
+        from_email = os.environ.get("RESEND_FROM_EMAIL", "hello@lumefxpresets.store") 
 
         params = {
             "from": f"Editor Packs <{from_email}>",

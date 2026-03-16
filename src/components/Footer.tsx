@@ -184,12 +184,12 @@ export default function Footer() {
             {/* Social icon pills */}
             <div className="footer-socials">
               <a
-                href="mailto:lumefxpresets@gmail.com"
+                href="mailto:hello@lumefxpresets.store"
                 className="footer-icon-link gmail"
-                title="lumefxpresets@gmail.com"
+                title="hello@lumefxpresets.store"
               >
                 <GmailIcon />
-                lumefxpresets@gmail.com
+                hello@lumefxpresets.store
               </a>
 
               <a
