@@ -1,4 +1,4 @@
-#  LumeFX Presets Store
+  #            LumeFX Presets Store
 
 <p align="center">
   <img src="public/logo.jpeg" alt="Tensor Galileo Logo" width="200" style="border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
