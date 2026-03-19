@@ -1,4 +1,4 @@
-# Tensor Galileo | LumeFX Presets Store
+<h1 align="center" style="letter-spacing:1px;">LumeFX Presets Store</h1>
 
 <p align="center">
   <img src="public/logo.jpeg" alt="Tensor Galileo Logo" width="200" style="border-radius: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
