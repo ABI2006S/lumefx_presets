@@ -21,6 +21,7 @@ const NewPricingSection = dynamic(() => import('@/components/NewPricingSection')
 const FaqSection = dynamic(() => import('@/components/FaqSection'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 const CheckoutModal = dynamic(() => import('@/components/CheckoutModal'), { ssr: false });
+const MobileStickyCTA = dynamic(() => import('@/components/MobileStickyCTA'), { ssr: false });
 
 export default function ClientPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -250,6 +251,7 @@ export default function ClientPage() {
             onClose={handleCloseCheckout}
             onContinue={handleContinueCheckout}
           />
+          <MobileStickyCTA onOpenCheckout={handleOpenCheckout} />
         </>
       )}
     </main>

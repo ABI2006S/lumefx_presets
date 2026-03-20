@@ -149,7 +149,11 @@
 
 @media (max-width: 768px) {
     .navbar-wrapper {
-        padding: 1.5rem 0;
+        padding: 1rem 0;
+    }
+
+    .navbar-logo .logo-img {
+        width: 100px;
     }
 
     .desktop-only {

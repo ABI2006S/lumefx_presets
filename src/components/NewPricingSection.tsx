@@ -7,6 +7,22 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 export default function NewPricingSection({ onCheckout }: { onCheckout?: () => void }) {
   useScrollReveal();
 
+  const [timeLeft, setTimeLeft] = React.useState(24 * 60 * 60 - 60); // Starts near 23h 59m
+  const [showBreakdown, setShowBreakdown] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    return `${h.toString().padStart(2, '0')}h ${m.toString().padStart(2, '0')}m`;
+  };
+
   return (
     <>
       <style>{`
@@ -200,6 +216,22 @@ export default function NewPricingSection({ onCheckout }: { onCheckout?: () => v
           color: var(--muted-foreground);
         }
 
+        .mobile-toggle-btn {
+          display: none;
+          width: 100%;
+          padding: 0.75rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px dashed rgba(255, 255, 255, 0.2);
+          border-radius: 10px;
+          color: var(--foreground);
+          font-size: 0.85rem;
+          font-weight: 600;
+          margin-bottom: 1rem;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+
         /* CTA */
         .nps-cta-area {
           text-align: center;
@@ -316,6 +348,12 @@ export default function NewPricingSection({ onCheckout }: { onCheckout?: () => v
           .nps-outer {
             padding: 2rem 1.25rem;
           }
+          .mobile-toggle-btn {
+            display: flex;
+          }
+          .nps-value-list.mobile-collapsed {
+            display: none;
+          }
         }
       `}</style>
 
@@ -336,14 +374,26 @@ export default function NewPricingSection({ onCheckout }: { onCheckout?: () => v
               <div className="nps-card reveal reveal-delay-100">
 
                 {/* Value breakdown */}
-                <div className="nps-value-list">
+                <button 
+                  className="mobile-toggle-btn"
+                  onClick={() => setShowBreakdown(!showBreakdown)}
+                >
+                  {showBreakdown ? 'Hide Value Breakdown' : 'Show Value Breakdown (₹3750+ value)'}
+                  <svg 
+                    width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"
+                    style={{ transform: showBreakdown ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+
+                <div className={`nps-value-list ${!showBreakdown ? 'mobile-collapsed' : ''}`}>
                   {[
-                    ['Presets Pack Value',    '₹1500'],
-                    ['LUT Pack Value',        '₹1200'],
-                    ['Overlays Pack Value',   '₹900'],
-                    ['Fonts Pack Value',      '₹600'],
-                    ['Sound Effects Library', '₹800'],
-                    ['Creator AI Tools',      '₹1000'],
+                    ['Lumex Presets Value', '₹800'],
+                    ['Lumex LUTs Value', '₹700'],
+                    ['Lumex Overlays Value', '₹600'],
+                    ['Lumex Fonts Value', '₹750'],
+                    ['Sound Effects Library', '₹900'],
                   ].map(([label, val]) => (
                     <div key={label} className="nps-value-row">
                       <span className="nps-row-label">{label}</span>
@@ -352,20 +402,20 @@ export default function NewPricingSection({ onCheckout }: { onCheckout?: () => v
                   ))}
                   <div className="nps-value-row">
                     <span className="nps-row-total-label">Total Value:</span>
-                    <span className="nps-row-total-val">₹6000+</span>
+                    <span className="nps-row-total-val">₹3750+</span>
                   </div>
                 </div>
 
                 {/* Price highlight */}
                 <div className="nps-price-box">
-                  <p className="nps-price-today-label">Today Only</p>
+                  <p className="nps-price-today-label">Launching Offer</p>
                   <div className="nps-price-row">
-                    <span className="nps-old-price">₹4999</span>
-                    <span className="nps-new-price">₹489</span>
+                    <span className="nps-old-price">₹3750</span>
+                    <span className="nps-new-price">₹199</span>
                   </div>
-                  <p className="nps-savings">You Save ₹4,510</p>
+                  <p className="nps-savings">You Save ₹3,551</p>
                   <div className="nps-timer-chip">
-                    Offer Ends In:&nbsp;<span className="nps-timer-accent">23h 49m</span>
+                    Offer Ends In:&nbsp;<span className="nps-timer-accent">{formatTime(timeLeft)}</span>
                   </div>
                   <p className="nps-price-note">Price increases to ₹4,999 tonight</p>
                 </div>
@@ -415,6 +465,7 @@ export default function NewPricingSection({ onCheckout }: { onCheckout?: () => v
                   />
                 </div>
                 <p className="nps-image-caption">
+
                   <strong>64 GB</strong> &nbsp;·&nbsp; Complete Creator Toolkit
                 </p>
               </div>
