@@ -226,6 +226,11 @@ export default function Footer() {
                 <DocumentIcon />
                 Privacy Policy
               </a>
+              <span className="footer-divider" aria-hidden="true" />
+              <a href="/refund-policy" className="footer-doc-link">
+                <DocumentIcon />
+                Refund Policy
+              </a>
             </div>
 
           </div>

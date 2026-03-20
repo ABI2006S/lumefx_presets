@@ -34,42 +34,38 @@ export default function PricingSection({ onCheckout }: PricingSectionProps) {
 
                     <div className="pricing-value-breakdown reveal reveal-delay-200">
                         <div className="value-row">
-                            <span>Presets Pack Value</span>
-                            <span>₹1500</span>
-                        </div>
-                        <div className="value-row">
-                            <span>LUT Pack Value</span>
-                            <span>₹1200</span>
-                        </div>
-                        <div className="value-row">
-                            <span>Overlays Pack Value</span>
-                            <span>₹900</span>
-                        </div>
-                        <div className="value-row">
-                            <span>Fonts Pack Value</span>
-                            <span>₹600</span>
-                        </div>
-                        <div className="value-row">
-                            <span>Sound Effects Library</span>
+                            <span>Lumex Presets Value</span>
                             <span>₹800</span>
                         </div>
                         <div className="value-row">
-                            <span>Creator AI Tools</span>
-                            <span>₹1000</span>
+                            <span>Lumex LUTs Value</span>
+                            <span>₹700</span>
+                        </div>
+                        <div className="value-row">
+                            <span>Lumex Overlays Value</span>
+                            <span>₹600</span>
+                        </div>
+                        <div className="value-row">
+                            <span>Lumex Fonts Value</span>
+                            <span>₹750</span>
+                        </div>
+                        <div className="value-row">
+                            <span>Sound Effects Library</span>
+                            <span>₹900</span>
                         </div>
                         <div className="value-row value-total mt-4 border-t pt-4">
                             <span>Total Value:</span>
-                            <span className="strikethrough-red">₹6000+</span>
+                            <span className="strikethrough-red">₹3750+</span>
                         </div>
                     </div>
 
                     <div className="pricing-offer-box reveal reveal-delay-300">
-                        <span className="offer-label">TODAY ONLY</span>
+                        <span className="offer-label">Launching Offer</span>
                         <div className="flex items-center justify-center gap-3 mb-2">
                             <span className="original-price" style={{ textDecoration: 'line-through', color: '#94a3b8', fontSize: '1.5rem', fontWeight: 600 }}>₹4999</span>
                             <span className="current-price" style={{ margin: 0 }}>₹489</span>
                         </div>
-                        <span className="offer-save">You Save ₹4,510</span>
+                        <span className="offer-save">You Save ₹3,551</span>
                     </div>
 
                     <div className="pricing-urgency reveal reveal-delay-400">
