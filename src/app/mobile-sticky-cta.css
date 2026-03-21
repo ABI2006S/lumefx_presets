@@ -1,38 +1,52 @@
 .mobile-sticky-wrapper {
     position: fixed !important;
-    bottom: 2rem !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
+    bottom: 20px !important;
+
+    left: 50% !important;
+    transform: translate(-50%, 150%) !important;
+    /* center + hidden state */
+
+    width: calc(100% - 40px) !important;
+    /* equal spacing both sides */
+    max-width: 400px !important;
+
     display: none;
     justify-content: center !important;
     align-items: center !important;
+
     z-index: 9999 !important;
     pointer-events: none !important;
-    transform: translateY(150%) !important;
+
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .mobile-sticky-wrapper.visible {
-    transform: translateY(0) !important;
+    transform: translate(-50%, 0) !important;
+    /* keeps it centered */
 }
 
 .mobile-sticky-wrapper .btn-primary {
-    width: 90% !important;
-    max-width: 400px !important;
-    margin: 0 auto !important;
+    width: 100% !important;
+
     pointer-events: auto !important;
+
     padding: 1.1rem !important;
     font-size: 0.9rem !important;
     font-weight: 900 !important;
     font-family: var(--font-orbitron) !important;
+
     text-transform: uppercase !important;
     letter-spacing: 0.05em !important;
+
     background: linear-gradient(135deg, #ff1a1a 0%, #cc0000 100%) !important;
     color: #fff !important;
+
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
     border-radius: 14px !important;
-    box-shadow: 0 10px 30px rgba(255, 26, 26, 0.4), 0 4px 15px rgba(0, 0, 0, 0.6) !important;
+
+    box-shadow: 0 10px 30px rgba(255, 26, 26, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.6) !important;
+
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -42,11 +56,10 @@
 .mobile-sticky-wrapper .btn-primary::after {
     content: '→';
     font-size: 1.1rem;
-    font-weight: 400;
 }
 
 @media (max-width: 768px) {
     .mobile-sticky-wrapper {
-        display: flex; /* Changed from block to flex */
+        display: flex;
     }
 }
