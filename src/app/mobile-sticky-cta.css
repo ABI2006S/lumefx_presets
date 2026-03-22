@@ -6,13 +6,12 @@
     right: auto !important;
 
     width: 100% !important;
-    padding-left: 12px !important;
-    /* 👈 THIS is the only shift */
+    padding-left: 24px !important;
+    /* 🔥 increased from 12 → 24 */
     padding-right: 0 !important;
 
     display: none;
     justify-content: flex-start !important;
-    /* still left */
     align-items: center !important;
 
     z-index: 9999 !important;
