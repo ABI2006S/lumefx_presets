@@ -54,15 +54,6 @@ export default function ClientPage() {
 
   const handleCloseCheckout = () => setIsModalOpen(false);
 
-  const loadRazorpay = () =>
-    new Promise((resolve) => {
-      const script = document.createElement('script');
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
-
   const handleContinueCheckout = async (formData: {
     name: string;
     email: string;
@@ -70,9 +61,10 @@ export default function ClientPage() {
     state: string;
   }) => {
     handleCloseCheckout();
-    const res = await loadRazorpay();
-    if (!res) {
-      alert('Razorpay load failed. Are you online?');
+    
+    // Check if Razorpay is loaded (preloaded in layout.tsx)
+    if (typeof window === 'undefined' || !(window as any).Razorpay) {
+      alert('Payment system is still loading. Please wait a moment and try again.');
       return;
     }
 

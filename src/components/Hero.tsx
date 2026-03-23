@@ -61,7 +61,8 @@ export default function Hero() {
                             loop
                             muted
                             playsInline
-                            className="w-full h-full object-contain"
+                            preload="metadata"
+                            className="w-full h-full object-cover"
                             style={{ position: 'absolute', top: 0, left: 0 }}
                             onPlay={() => setIsPlaying(true)}
                             onPause={() => setIsPlaying(false)}
